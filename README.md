@@ -19,7 +19,7 @@ For example:
 * Momo 1
 
 Hence, we designed a separate `oms_channel` table to handle these variations.
-
+https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 ---
 
 ## Reports and Processes (for system admin)
