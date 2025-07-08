@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Oms
+Bundle-SymbolicName: tw.tom.oms;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.compiere.model
+Require-Bundle: org.adempiere.base;bundle-version="12.0.0",
+ org.adempiere.ui.zk;bundle-version="12.0.0",
+ zk;bundle-version="10.0.1",
+ org.adempiere.plugin.utils;bundle-version="12.0.0",
+ com.google.gson;bundle-version="2.9.0"
+Service-Component: OSGI-INF/tw.tom.modelFactory.xml,
+ OSGI-INF/tw.tom.processFactory.xml
+Automatic-Module-Name: tw.tom.oms
+Bundle-RequiredExecutionEnvironment: JavaSE-17
