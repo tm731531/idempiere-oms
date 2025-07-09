@@ -58,6 +58,10 @@ public class CyberbizOrder {
         public String address1;
         public String address2;
     }
-
+    public  TempAllDTO ConvertToTempAll() {
+    	TempAllDTO t= new TempAllDTO();
+    	t.order_name=order_name;
+    	return t;
+    }
 
 }
