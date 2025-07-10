@@ -1,26 +1,43 @@
-## `oms_platform`
 
-Setting name at first .
-If the platform follows a third-party integration design, you should configure the **ID**, **Key**, and **Host** in this table.
-Note: **Login** and **Redirect URL** are **not provided** in this case.
+
+
+
+# iDempiere OMS Plugin
+
+> **iDempiere OMS** is a plugin designed to integrate the iDempiere ERP system with external e-commerce platforms such as Cyberbiz, Shopee, Shopline, and others. It serves as a central order management layer to automate order fetching, platform-channel mapping, and logistics updates.
 
 ---
 
-## `oms_channel`
+## Features
 
-A single platform can support multiple sales channels.
-For example:
+- Multi-platform support: Cyberbiz, Shopee, Shopline, Momo, etc.
+- Channel-based design: Each platform can manage multiple store accounts
+- Built fully using iDempiere Dictionary and plugin extension
+- Supports Scheduler, Process, and Workflow integration
+- Includes API configuration support: key, secret, host, etc.
 
-* Cyberbiz 1
-* Shopee 1
-* Shopee 2
-* Cyberbiz 2
-* Shopline 1
-* Momo 1
+---
+
+## Database Tables
+
+| Table         | Description                                                |
+|---------------|------------------------------------------------------------|
+| `oms_platform` | Master table for defining platform information (API host, key, etc.) |
+| `oms_channel`  | Defines each actual store/account under a platform         |
+
+Example:
+oms_platform
+└── Cyberbiz, Shopee, Momo...
+
+oms_channel
+├── Shopee-Store A (linked to Shopee)
+├── Shopee-Store B
+└── Cyberbiz-TW Main Store
+
 
 Hence, we designed a separate `oms_channel` table to handle these variations.
 https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
----
+----
 
 ## Reports and Processes (for system admin)
 
@@ -42,3 +59,4 @@ https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 ## Platform Notes
 
 Some platforms follow a third-party integration design. In such cases, the platform **must be configured with the corresponding app information first** (App ID, Key, Host, etc.).
+
