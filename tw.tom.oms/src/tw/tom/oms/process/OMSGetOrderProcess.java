@@ -40,9 +40,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import tw.tom.oms.DTO.CyberbizOrder;
-import tw.tom.oms.DTO.ParameterDto;
-import tw.tom.oms.DTO.TempAllDTO;
+import tw.tom.oms.DTO.CyberbizOrderResponse;
+import tw.tom.oms.DTO.UnifiedOrderDTO;
 import tw.tom.oms.model.I_oms_channel;
 import tw.tom.oms.model.MOMS_Channel;
 import tw.tom.oms.service.CyberbizService;
@@ -78,8 +77,8 @@ public class OMSGetOrderProcess extends SvrProcess {
 			throw new IllegalArgumentException("Channel not found for ID: " + oms_channel_ID);
 		}
 
-		List<TempAllDTO> orders = fetchOrders(channelData);
-		for (TempAllDTO order : orders) {
+		List<UnifiedOrderDTO> orders = fetchOrders(channelData);
+		for (UnifiedOrderDTO order : orders) {
 			createOrderFromTempAllDTO(order, AD_Org_ID);
 		}
 
@@ -91,19 +90,19 @@ public class OMSGetOrderProcess extends SvrProcess {
 		return query.setParameters(Integer.valueOf(oms_channel_ID)).first();
 	}
 
-	private List<TempAllDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
+	private List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
 		String platformName = channelData.getoms_platform().getName();
-		List<CyberbizOrder> datas;
-		List<TempAllDTO>  orders = new ArrayList<>();
+		List<CyberbizOrderResponse> datas;
+		List<UnifiedOrderDTO>  orders = new ArrayList<>();
 
 		switch (platformName) {
 		case "cyberbizV1":
 			datas = cbs.cyberbizGetdata(channelData);
-			orders = datas.stream().map(CyberbizOrder::ConvertToTempAll).collect(Collectors.toList());
+			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
 			break;
 		case "cyberbizV2":
 			datas = cbs.cyberbizV2Getdata(channelData);
-			orders = datas.stream().map(CyberbizOrder::ConvertToTempAll).collect(Collectors.toList());
+			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
 			break;
 		default:
 			return Collections.emptyList();
@@ -112,7 +111,7 @@ public class OMSGetOrderProcess extends SvrProcess {
 		return orders;
 	}
 
-	private void createOrderFromTempAllDTO(TempAllDTO orderData, int AD_Org_ID) {
+	private void createOrderFromTempAllDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
 		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
 		order.setBPartner(MBPartner.get(getCtx(), 118));
 		order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);

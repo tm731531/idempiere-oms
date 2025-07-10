@@ -3,7 +3,7 @@ package tw.tom.oms.DTO;
 import java.util.List;
 
 
-public class TempAllDTO {
+public class UnifiedOrderDTO {
 	public String created_at;
 	public String updated_at;
 	public String order_number;

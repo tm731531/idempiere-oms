@@ -1,9 +1,10 @@
 package tw.tom.oms.DTO;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CyberbizOrder {
+public class CyberbizOrderResponse {
     public String created_at;
     public String updated_at;
     public int order_number;
@@ -58,9 +59,22 @@ public class CyberbizOrder {
         public String address1;
         public String address2;
     }
-    public  TempAllDTO ConvertToTempAll() {
-    	TempAllDTO t= new TempAllDTO();
+    public  UnifiedOrderDTO ConvertToTempAll() {
+    	UnifiedOrderDTO t= new UnifiedOrderDTO();
     	t.order_name=order_name;
+    	t.line_items=new ArrayList<UnifiedOrderDTO.LineItem>();
+    	for (var item : line_items) {
+    		var uItem = new UnifiedOrderDTO.LineItem();
+    		uItem.id=item.id;
+    		uItem.product_id=item.product_id;
+    		uItem.product_variant_id=item.product_variant_id;
+    		uItem.title=item.title;
+    		uItem.sku=item.sku;
+    		uItem.quantity=item.quantity;
+    		uItem.qc=item.qc;
+    		uItem.price=item.price;
+    		t.line_items.add(uItem);
+    	}
     	return t;
     }
 

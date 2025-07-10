@@ -25,7 +25,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import tw.tom.oms.DTO.CyberbizOrder;
+import tw.tom.oms.DTO.CyberbizOrderResponse;
+import tw.tom.oms.helper.CyberbizApiHelper;
 import tw.tom.oms.model.MOMS_Channel;
 
 public class CyberbizService {
@@ -44,9 +45,9 @@ public class CyberbizService {
 		return Base64.getEncoder().encodeToString(hmacBytes);
 	}
 
-	public List<CyberbizOrder> cyberbizGetdata(MOMS_Channel parameters) throws Exception {
-		var uri = "/v1/orders?page=1&per_page=20&offset=0";
-		String url = "https://api.cyberbiz.co" + uri;
+	public List<CyberbizOrderResponse> cyberbizGetdata(MOMS_Channel parameters) throws Exception {
+		var uri =CyberbizApiHelper.Order.listV1 +"?page=1&per_page=20&offset=0";
+		String url =CyberbizApiHelper.apiHostV1 + uri;
 		String httpMethod = "GET";
 		String requestLine = httpMethod + " " + uri + " HTTP/1.1";
 		String xDate = getCurrentGMTTime();
@@ -92,14 +93,14 @@ public class CyberbizService {
 			// Step 1: Parse 為 JsonArray
 			JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
 
-			List<CyberbizOrder> lc = new ArrayList();
+			List<CyberbizOrderResponse> lc = new ArrayList();
 			Gson gson = new Gson();
 			// 取第一筆（或你需要的那筆）資料
 			for (JsonElement element : jsonArray) {
 				JsonObject jsonObject = element.getAsJsonObject();
 
 				// Step 2: 用 Gson 轉成 Java 物件
-				CyberbizOrder order = gson.fromJson(jsonObject, CyberbizOrder.class);
+				CyberbizOrderResponse order = gson.fromJson(jsonObject, CyberbizOrderResponse.class);
 
 				System.out.println("訂單編號：" + order.order_number);
 				System.out.println("客戶姓名：" + order.customer.name);
@@ -111,10 +112,10 @@ public class CyberbizService {
 		}
 	}
 
-	public List<CyberbizOrder> cyberbizV2Getdata(MOMS_Channel parameters)
+	public List<CyberbizOrderResponse> cyberbizV2Getdata(MOMS_Channel parameters)
 			throws NoSuchAlgorithmException, InvalidKeyException, IOException {
 
-		String url = "https://app-store-api.cyberbiz.io/v1/orders?page=1&per_page=20&offset=0";
+		String url =CyberbizApiHelper.apiHostV2 +CyberbizApiHelper.Order.listV1+"?page=1&per_page=20&offset=0";
 
 		// 4. 建立 HttpURLConnection 並發送請求
 		URL obj = new URL(url);
@@ -144,14 +145,14 @@ public class CyberbizService {
 			// Step 1: Parse 為 JsonArray
 			JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
 
-			List<CyberbizOrder> lc = new ArrayList();
+			List<CyberbizOrderResponse> lc = new ArrayList();
 			Gson gson = new Gson();
 			// 取第一筆（或你需要的那筆）資料
 			for (JsonElement element : jsonArray) {
 				JsonObject jsonObject = element.getAsJsonObject();
 
 				// Step 2: 用 Gson 轉成 Java 物件
-				CyberbizOrder order = gson.fromJson(jsonObject, CyberbizOrder.class);
+				CyberbizOrderResponse order = gson.fromJson(jsonObject, CyberbizOrderResponse.class);
 
 				System.out.println("訂單編號：" + order.order_number);
 				System.out.println("客戶姓名：" + order.customer.name);
