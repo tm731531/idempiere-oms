@@ -46,8 +46,8 @@ flowchart TD
     B --> C[Load MOMS_Channel from DB]
     C --> D{Which platform?}
 
-    D -->|CyberbizV2| E[Call cbs.refreshToken(channel)]
-    D -->|Shopee| F[Call sps.refreshToken(channel)]
+    D -->|CyberbizV2| E[Call refreshToken]
+    D -->|Shopee| F[Call refreshToken]
     D -->|Others| G[Skip or throw error]
 
     E --> H[Update access_token in DB]
