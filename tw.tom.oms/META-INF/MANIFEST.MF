@@ -3,7 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Oms
 Bundle-SymbolicName: tw.tom.oms;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Import-Package: org.compiere.model
+Import-Package: com.fasterxml.jackson.annotation;version="[2.15.0,3.0.0]",
+ org.apache.http.client.utils;version="[4.5.0,5.0.0]",
+ org.compiere.model
 Require-Bundle: org.adempiere.base;bundle-version="12.0.0",
  org.adempiere.ui.zk;bundle-version="12.0.0",
  zk;bundle-version="10.0.1",

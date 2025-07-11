@@ -168,7 +168,7 @@ public class CyberbizOrderService implements OrderService {
 				System.out.println("商品數量：" + order.line_items.size());
 				lc.add(order);
 			}
-			return lc.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
+			return lc.stream().map(CyberbizOrderResponse::ConvertToUnfiedOrderDTO).collect(Collectors.toList());
 		}
 	}
 

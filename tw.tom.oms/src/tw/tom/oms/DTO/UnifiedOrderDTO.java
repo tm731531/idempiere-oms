@@ -34,9 +34,9 @@ public class UnifiedOrderDTO {
 //	}
 
 	public static class LineItem {
-		public long id;
-		public long product_id;
-		public long product_variant_id;
+		public String id;
+		public String product_id;
+		public String product_variant_id;
 		public String title;
 		public String sku;
 		public String qc;

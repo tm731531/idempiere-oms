@@ -9,6 +9,8 @@ public class OrderServiceFactory {
 			return new CyberbizOrderService();
 		case "cyberbizV2":
 			return new CyberbizV2OrderService();
+		case "shopline":
+			return new ShoplineOrderService();
 		default:
 			throw new IllegalArgumentException("Unsupported platform: " + platform);
 		}
