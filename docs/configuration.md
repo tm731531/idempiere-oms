@@ -15,7 +15,6 @@ Platforms represent third-party e-commerce systems such as Cyberbiz, Shopee, or 
 | Key / Secret  | API authentication credentials             |
 | Description   | Optional text to describe the platform     |
 
-> ⚠️ Note: Some platforms like Shopee or Facebook require OAuth-based tokens. Future versions may support token flow.
 
 Example:
 <pre>
@@ -45,8 +44,9 @@ Platform: Cyberbiz
 Access Token: 
 Account ID(channel_sn): xxxxx.cyberbiz.co
 
-https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 </pre>
+https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
+
 ---
 
 ## 📘 Field Notes
