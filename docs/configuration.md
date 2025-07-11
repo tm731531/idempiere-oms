@@ -18,10 +18,12 @@ Platforms represent third-party e-commerce systems such as Cyberbiz, Shopee, or 
 > ⚠️ Note: Some platforms like Shopee or Facebook require OAuth-based tokens. Future versions may support token flow.
 
 Example:
+<pre>
 Name: Cyberbiz
 Host: https://api.cyberbiz.io
 Key: xxxxxx
 Secret: yyyyyy
+</pre>
 ---
 
 ## 🏪 2. Configure Channels (`oms_channel`)
@@ -36,12 +38,15 @@ Channels represent specific store accounts under a platform. You can link multip
 | Shop ID / Account  | Optional ID used in some APIs               |
 | Description        | Optional description                        |
 | Active             | Indicates if the channel is active          |
-
+<pre>
 Example:
 Name: Cyberbiz Store TW
 Platform: Cyberbiz
-Access Token: (empty for now)
-Account ID: shop_tw
+Access Token: 
+Account ID(channel_sn): xxxxx.cyberbiz.co
+
+https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
+</pre>
 ---
 
 ## 📘 Field Notes
