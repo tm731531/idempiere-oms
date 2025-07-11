@@ -24,5 +24,3 @@ Menu > Process > Fetch Cyberbiz Orders
 
 - Orders are created in `Sales Orders`
 - Can be viewed in standard iDempiere window
-
-_Screenshots coming soon._
