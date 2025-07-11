@@ -71,5 +71,15 @@ Before executing any Process:
 ## ⏭ Coming Soon
 
 - API key rotation tracking
-- Multi-store JSON mapping
+- other platform
+
+| platform           | status                                 |
+|--------------------|----------------------------------------|
+| cyberbizV1| OK |
+| cyberbizV2| OK |
+| shopline | working |
+| shopify | planing |
+| shopee | planing |
+| momo | planing |
+| yahoo mall | planing |
 
