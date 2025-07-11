@@ -49,7 +49,7 @@ https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 | Platform    | `token1`       | `token2`       | `token3`       | `channel_sn`     |
 |-------------|-----------------|-----------------|-----------------|-------------------|
 | Shopee      | Access Token    | Refresh Token   | (not used)      | Shop id           |
-| Cyberbiz V2 | Refresh Token   | Access Token    | (not used)      | (none)            |
+| Cyberbiz V2 | Refresh Token   | Access Token    | (not used)      | Shop DNS           |
 | Shopline    | API Key         | API Secret      | Token Expiry    | (none)            |
 
 
