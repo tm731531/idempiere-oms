@@ -11,7 +11,7 @@ Platforms represent third-party e-commerce systems such as Cyberbiz, Shopee, or 
 | Field         | Description                                |
 |---------------|--------------------------------------------|
 | Name          | Display name of the platform               |
-| Host          | Base URL of the API                        |
+| Host          | Base URL of the API Host(some api usage is diff with host api dns,like refresh token , target is platform)                        |
 | Key / ID  | API authentication credentials             |
 | Description   | Optional text to describe the platform     |
 
