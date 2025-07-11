@@ -44,14 +44,16 @@ import tw.tom.oms.DTO.CyberbizOrderResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
 import tw.tom.oms.model.I_oms_channel;
 import tw.tom.oms.model.MOMS_Channel;
-import tw.tom.oms.service.CyberbizService;
+import tw.tom.oms.service.CyberbizOrderService;
+import tw.tom.oms.service.OrderService;
+import tw.tom.oms.service.OrderServiceFactory;
 
 public class OMSGetOrderProcess extends SvrProcess {
 
 	/** Shipment */
 //	private ParameterDto parameters = new ParameterDto();
 	private String oms_channel_ID;
-	private CyberbizService cbs = new CyberbizService();
+	private CyberbizOrderService cbs = new CyberbizOrderService();
 
 	/**
 	 * Prepare - e.g., get Parameters.
@@ -92,21 +94,23 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 	private List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
 		String platformName = channelData.getoms_platform().getName();
-		List<CyberbizOrderResponse> datas;
-		List<UnifiedOrderDTO>  orders = new ArrayList<>();
+//		List<CyberbizOrderResponse> datas;
+//		List<UnifiedOrderDTO>  orders = new ArrayList<>();
 
-		switch (platformName) {
-		case "cyberbizV1":
-			datas = cbs.cyberbizGetdata(channelData);
-			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
-			break;
-		case "cyberbizV2":
-			datas = cbs.cyberbizV2Getdata(channelData);
-			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
-			break;
-		default:
-			return Collections.emptyList();
-		}
+		OrderService service = OrderServiceFactory.getService(platformName);
+		List<UnifiedOrderDTO> orders = service.fetchOrders(channelData);
+//		switch (platformName) {
+//		case "cyberbizV1":
+//			datas = cbs.cyberbizGetdata(channelData);
+//			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
+//			break;
+//		case "cyberbizV2":
+//			datas = cbs.cyberbizV2Getdata(channelData);
+//			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
+//			break;
+//		default:
+//			return Collections.emptyList();
+//		}
 
 		return orders;
 	}
