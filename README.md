@@ -26,6 +26,13 @@
 | `oms_channel`  | Defines each actual store/account under a platform         |
 
 Example:
+<pre> ```text oms_platform 
+  └── Cyberbiz, Shopee, Momo... 
+  
+  oms_channel 
+  ├── Shopee-Store A (linked to Shopee) 
+  ├── Shopee-Store B 
+  └── Cyberbiz-TW Main Store ``` </pre>
 oms_platform
 └── Cyberbiz, Shopee, Momo...
 
