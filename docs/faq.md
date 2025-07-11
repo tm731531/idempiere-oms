@@ -8,13 +8,6 @@ Yes. Each store is a separate `oms_channel` linked to the `Shopee` platform.
 
 Use iDempiere’s built-in scheduler or workflow to execute your Process class periodically.
 
-### Q: Does this plugin handle OAuth?
-
-Not yet. Planned for future enhancement. Token storage fields are available.
-
-### Q: Where is the source code for the adapter?
-
-See `/src/org/idempiere/oms/adapter/`
 
 ### Q: Can I contribute?
 
