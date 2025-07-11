@@ -12,7 +12,7 @@ Platforms represent third-party e-commerce systems such as Cyberbiz, Shopee, or 
 |---------------|--------------------------------------------|
 | Name          | Display name of the platform               |
 | Host          | Base URL of the API                        |
-| Key / Secret  | API authentication credentials             |
+| Key / ID  | API authentication credentials             |
 | Description   | Optional text to describe the platform     |
 
 
@@ -20,8 +20,8 @@ Example:
 <pre>
 Name: Cyberbiz
 Host: https://api.cyberbiz.io
-Key: xxxxxx
-Secret: yyyyyy
+ID: xxxxxx
+Key: yyyyyy
 </pre>
 ---
 
