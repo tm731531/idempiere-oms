@@ -27,25 +27,32 @@ Secret: yyyyyy
 
 ## 🏪 2. Configure Channels (`oms_channel`)
 
-Channels represent specific store accounts under a platform. You can link multiple channels to the same platform.
+### Platform and Token Mapping
 
-| Field              | Description                                 |
-|--------------------|---------------------------------------------|
-| Name               | Store or Channel name                       |
-| Platform           | Linked `oms_platform` record                |
-| Access Token       | Optional (OAuth or token-based APIs)        |
-| Shop ID / Account  | Optional ID used in some APIs               |
-| Description        | Optional description                        |
-| Active             | Indicates if the channel is active          |
-<pre>
-Example:
-Name: Cyberbiz Store TW
-Platform: Cyberbiz
-Access Token: 
-Account ID(channel_sn): xxxxx.cyberbiz.co
+The `oms_platform` field determines which platform this channel belongs to and drives the factory logic for processing.
 
-</pre>
+Each platform may have different requirements for tokens stored in the generic `token_1`, `token_2`, `token_3` fields.  
+For example, some platforms use:
+
+- `token_1`: Access Token  
+- `token_2`: Refresh Token  
+- `token_3`: Token Expiry or other credentials
+
+Additionally, some platforms require extra fields like `channel_sn` (channel serial number) for authentication or API calls.
+
+**It is essential to consult the platform-specific documentation to understand the exact usage of these fields.**
+
 https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
+
+### Example Token and Field Usage per Platform
+
+| Platform    | `token1`       | `token2`       | `token3`       | `channel_sn`     |
+|-------------|-----------------|-----------------|-----------------|-------------------|
+| Shopee      | Access Token    | Refresh Token   | (not used)      | (none)           |
+| Cyberbiz V2 | Refresh Token   | Access Token    | (not used)      | (none)            |
+| Shopline    | API Key         | API Secret      | Token Expiry    | (none)            |
+
+
 
 ---
 
