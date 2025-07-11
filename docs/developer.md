@@ -19,21 +19,21 @@ Fetch platform data and convert to list of UnifiedOrderDTO
 
 ### Core Components
 
-    OrderService: Unified interface defining fetchOrders(MOMS_Channel channelData), returning a standard list of orders
+OrderService: Unified interface defining fetchOrders(MOMS_Channel channelData), returning a standard list of orders
 
-    Concrete platform OrderService implementations: Handle platform API calls and data conversion
+Concrete platform OrderService implementations: Handle platform API calls and data conversion
 
-    OrderServiceFactory: Returns the correct OrderService instance based on platform name
+OrderServiceFactory: Returns the correct OrderService instance based on platform name
 
-    UnifiedOrderDTO: Standard data transfer object representing orders
+UnifiedOrderDTO: Standard data transfer object representing orders
 
 ### Adding a New Platform
 
-    1. Implement a new class implementing OrderService, e.g. MyPlatformOrderService, to handle the platform API and convert data
+1. Implement a new class implementing OrderService, e.g. MyPlatformOrderService, to handle the platform API and convert data
 
-    2. Add the new platform name case in OrderServiceFactory to return the new service
+2. Add the new platform name case in OrderServiceFactory to return the new service
 
-    3. Callers provide the platform name and get a list of unified orders without concern for platform specifics
+3. Callers provide the platform name and get a list of unified orders without concern for platform specifics
 
 ## Sample Code
 ```java!
