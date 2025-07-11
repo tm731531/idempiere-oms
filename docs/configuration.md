@@ -56,13 +56,6 @@ https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 
 ---
 
-## 📘 Field Notes
-
-- `Access Token` is optional and used only if the API requires token-based access
-- `Host` in `oms_platform` should **not** end with a slash `/`
-- You can script additional validation logic using Callout or Process
-
----
 
 ## ✅ Checklist
 
