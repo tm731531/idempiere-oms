@@ -35,7 +35,7 @@ Example:
   └── Cyberbiz-TW Main Store  </pre>
 
 
-Hence, we designed a separate `oms_channel` table to handle these variations.
+Hence, we designed a separate `oms_channel` table to handle these variations.<br>
 https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 ----
 
