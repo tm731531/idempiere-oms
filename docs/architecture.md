@@ -1,5 +1,7 @@
 # Architecture
 
+## OrderGetJob = OMSGetOrderProcess.java
+
 The OMS plugin is designed with a layered architecture to separate platform definitions from channel-specific execution.
 
 ```mermaid
@@ -31,3 +33,22 @@ Sync Job: Pulls data from channels periodically or on-demand
 Factory: Implements platform-specific APIs
 
 C_Order: The iDempiere standard order document
+
+
+## RefreshTokenJob = OMSRefreshTokenProcess.java
+
+This job is implemented as `OMSRefreshTokenProcess`, a process registered in the iDempiere Scheduler.  
+It accepts `MOMS_Channel_ID` as input and calls the platform-specific refresh logic.
+
+```text
+Scheduler → OMSRefreshTokenProcess
+              ↓
+      MOMS_Channel_ID (from parameter)
+              ↓
+   Identify platform from channel data
+              ↓
+   Call appropriate service:
+       - CyberbizV2: cbs.refreshToken()
+       - Shopee:     sps.refreshToken()
+              ↓
+   Store new access_token back to DB
