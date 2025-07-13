@@ -86,7 +86,20 @@ List<UnifiedOrderDTO> orders = service.fetchOrders(channelData);
 
 */
 ```
+## RefreshToken process
+```mermaid
+sequenceDiagram
+    participant Scheduler
+    participant OMSRefreshTokenProcess
+    participant PlatformTokenAPI
+    participant ChannelDB
 
+    Scheduler->>OMSRefreshTokenProcess: Trigger Process
+    OMSRefreshTokenProcess->>ChannelDB: Read platform/channel info
+    OMSRefreshTokenProcess->>PlatformTokenAPI: Call refresh token endpoint
+    PlatformTokenAPI-->>OMSRefreshTokenProcess: Return new token
+    OMSRefreshTokenProcess->>ChannelDB: Update token fields
+```
 
 
 ## Exception Handling
