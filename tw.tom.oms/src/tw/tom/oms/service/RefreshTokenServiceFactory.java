@@ -5,7 +5,7 @@ import tw.tom.oms.service.*;
 
 public class RefreshTokenServiceFactory {
 	public static IRefreshTokenService getService(String platform) {
-		switch (platform.toLowerCase()) {
+		switch (platform) {
 		case "cyberbizV2":
 			return new CyberbizV2RefreshTokenService();
 		default:

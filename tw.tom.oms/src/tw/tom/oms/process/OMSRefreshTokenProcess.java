@@ -51,10 +51,14 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 		Query query = new Query(Env.getCtx(), MOMS_Channel.Table_Name, "oms_channel_ID=?", get_TrxName());
 		MOMS_Channel channelData = query.setParameters(Integer.valueOf(oms_channel_ID)).first();
 
+		Query queryPlatform = new Query(Env.getCtx(), MOMS_Platform.Table_Name, "oms_platform_ID=?", get_TrxName());
+		MOMS_Platform platformData = queryPlatform.setParameters(channelData.getoms_platform_ID()).first();
+		
+		
 		String platformName = channelData.getoms_platform().getName();
 
 		IRefreshTokenService service = RefreshTokenServiceFactory.getService(platformName);
-		var result = service.refreshToken(channelData);
+		var result = service.refreshToken(channelData,platformData);
 		
 //		if (target_scheduler == null || target_scheduler.isEmpty()) {
 //			throw new AdempiereUserError("Target Scheduler Name is required");
@@ -109,19 +113,17 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 		return DB.getSQLValueStringEx(null, sql, AD_Scheduler_ID, name);
 	}
 
-	public String refreshToken(MOMS_Channel channeldata) {
+	public String refreshToken(MOMS_Channel channelData) {
 		
-		String urlStr = "https://" + channeldata.getchannel_sn() + "/admin/oauth/token";
+		String urlStr = "https://" + channelData.getchannel_sn() + "/admin/oauth/token";
+		Query queryPlatform = new Query(Env.getCtx(), MOMS_Platform.Table_Name, "oms_platform_ID=?", get_TrxName());
+		MOMS_Platform platformData = queryPlatform.setParameters(channelData.getoms_platform_ID()).first();
 		
-		Query query = new Query(Env.getCtx(), MOMS_Platform.Table_Name, "oms_platform_ID=?", get_TrxName());
-		MOMS_Platform platformdata = query.setParameters(channeldata.getoms_platform_ID()).first();
-		
-		
-		String clientId = platformdata.getplatform_id();//  MSysConfig.getValue("z_thirdly_cyberbiz_openapi_id", "", getAD_Client_ID());
-		String clientSecret =platformdata.getplatform_key();// MSysConfig.getValue("z_thirdly_cyberbiz_openapi_key", "", getAD_Client_ID());
+		String clientId = platformData.getplatform_id();//  MSysConfig.getValue("z_thirdly_cyberbiz_openapi_id", "", getAD_Client_ID());
+		String clientSecret =platformData.getplatform_key();// MSysConfig.getValue("z_thirdly_cyberbiz_openapi_key", "", getAD_Client_ID());
 		Map<String, String> params = new HashMap<>();
 		params.put("grant_type", "refresh_token");
-		params.put("refresh_token", channeldata.gettoken2());
+		params.put("refresh_token", channelData.gettoken2());
 		params.put("client_id", clientId);
 		params.put("client_secret", clientSecret);
 

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_CtxHelpMsg;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCtxHelpMsg;
@@ -93,10 +94,13 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 		return orders;
 	}
-
+	private int getBPartnerLocationID(int bpartnerID) {
+		String sql = "SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY IsBillTo DESC";
+		return DB.getSQLValueEx(get_TrxName(), sql, bpartnerID);
+	}
 	private void createOrderFromUnifiedOrderDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
 		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
-		order.setBPartner(MBPartner.get(getCtx(), 118));
+		order.setAD_Org_ID(AD_Org_ID);
 		order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);
 		order.setDeliveryRule(MOrder.DELIVERYRULE_CompleteOrder);
 		order.setDocStatus(DocAction.STATUS_Drafted);
@@ -105,13 +109,23 @@ public class OMSGetOrderProcess extends SvrProcess {
 		order.setDatePromised(today);
 		order.setDocumentNo(String.valueOf(orderData.order_number));
 		order.setDescription("fromCyberbiz");
-		order.setAD_Org_ID(AD_Org_ID);
+		order.setC_BPartner_ID(50001);
+//		order.setBPartner(MBPartner.get(getCtx(), 50001));
 		order.setM_Warehouse_ID(103);
+
+order.setBill_BPartner_ID(50001); // optional，通常一起設
+
+int bpartnerLocationID = getBPartnerLocationID(50001);
+if (bpartnerLocationID <= 0) {
+	throw new AdempiereException("BPartner 沒有任何地址，請先建立至少一筆地址");
+}
+order.setC_BPartner_Location_ID(bpartnerLocationID);
 		order.saveEx();
 
 		// 遍历并创建订单行
 		for (var lineItem : orderData.line_items) {
 			MOrderLine orderLine = new MOrderLine(getCtx(), 0, get_TrxName());
+			orderLine.setAD_Org_ID(order.getAD_Org_ID());
 			orderLine.setC_Order_ID(order.getC_Order_ID());
 			int M_Product_ID = getProductIdBySKU(lineItem.sku);
 			if (M_Product_ID <= 0) {
@@ -123,7 +137,6 @@ public class OMSGetOrderProcess extends SvrProcess {
 			orderLine.setPrice(new BigDecimal(lineItem.price));
 			orderLine.setDescription(lineItem.title);
 			orderLine.setM_Warehouse_ID(order.getM_Warehouse_ID());
-			orderLine.setAD_Org_ID(order.getAD_Org_ID());
 			orderLine.saveEx();
 		}
 	}

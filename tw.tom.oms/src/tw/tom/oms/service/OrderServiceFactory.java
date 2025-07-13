@@ -5,7 +5,7 @@ import tw.tom.oms.service.*;
 
 public class OrderServiceFactory {
 	public static IOrderService getService(String platform) {
-		switch (platform.toLowerCase()) {
+		switch (platform) {
 		case "cyberbizV1":
 			return new CyberbizOrderService();
 		case "cyberbizV2":
