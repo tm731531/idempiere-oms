@@ -44,11 +44,11 @@ sequenceDiagram
     participant Service as ShopeeOrderService
     participant iDempiere
 
-    Scheduler->>Channel: 取得通路設定
-    Channel->>Factory: 傳入 platformName
-    Factory->>Service: 回傳對應實作
-    Service->>Service: 呼叫平台 API 並轉成 DTO
-    Service->>iDempiere: 建立 MOrder
+    Scheduler->>Channel: get channel setting
+    Channel->>Factory: get platformName
+    Factory->>Service: return service
+    Service->>Service: get data via api 
+    Service->>iDempiere: create MOrder
 ```
 ## RefreshTokenJob = OMSRefreshTokenProcess.java
 
