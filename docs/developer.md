@@ -44,13 +44,13 @@ public interface IOrderService {
 // Factory implementation
 public class OrderServiceFactory {
     public static IOrderService getService(String platform) {
-        switch (platform.toLowerCase()) {
-            case "shopee":
-                return new ShopeeOrderService();
-            case "cyberbizv1":
-                return new CyberbizOrderService();
-            case "shopline":
-                return new ShoplineOrderService();
+        switch (platform) {
+		case "cyberbizV1":
+			return new CyberbizOrderService();
+		case "cyberbizV2":
+			return new CyberbizV2OrderService();
+		case "shopline":
+			return new ShoplineOrderService();
             default:
                 throw new IllegalArgumentException("Unsupported platform: " + platform);
         }
