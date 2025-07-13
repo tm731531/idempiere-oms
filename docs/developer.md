@@ -86,3 +86,16 @@ List<UnifiedOrderDTO> orders = service.fetchOrders(channelData);
 
 */
 ```
+
+
+
+## Exception Handling
+
+- OrderServiceFactory will throw `UnsupportedOperationException` if the platform is not registered.
+- Developers should ensure the `platformName` string is consistent with what's configured in the channel.
+- Each OrderService implementation should log platform errors (e.g., API failures) and avoid throwing raw exceptions.
+
+## Extension Tip
+
+- When adding new platforms, prefer small reusable fetch methods (e.g., token handling, pagination)
+- Keep platform-specific logic inside their service class only.
