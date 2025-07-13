@@ -60,3 +60,6 @@ https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 
 Some platforms follow a third-party integration design. In such cases, the platform **must be configured with the corresponding app information first** (App ID, Key, Host, etc.).
 
+## 🛠️ Setup Instructions
+See [docs/setup.md](./docs/setup.md) for installation and initialization steps.
+
