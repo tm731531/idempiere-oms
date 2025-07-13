@@ -1,9 +1,10 @@
 package tw.tom.oms.service;
 
-import tw.tom.oms.service.CyberbizOrderService;
+import tw.tom.oms.interfaces.IOrderService;
+import tw.tom.oms.service.*;
 
 public class OrderServiceFactory {
-	public static OrderService getService(String platform) {
+	public static IOrderService getService(String platform) {
 		switch (platform.toLowerCase()) {
 		case "cyberbizV1":
 			return new CyberbizOrderService();

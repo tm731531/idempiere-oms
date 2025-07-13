@@ -25,9 +25,10 @@ import java.time.ZoneId;
 import tw.tom.oms.DTO.ShoplineGetOrderListResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
 import tw.tom.oms.helper.ShoplineApiHelper;
+import tw.tom.oms.interfaces.IOrderService;
 import tw.tom.oms.model.MOMS_Channel;
 
-public class ShoplineOrderService implements OrderService {
+public class ShoplineOrderService implements IOrderService {
 
 	@Override
 	public List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {

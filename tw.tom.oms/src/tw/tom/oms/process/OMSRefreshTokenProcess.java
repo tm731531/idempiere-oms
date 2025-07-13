@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.compiere.model.MSysConfig;
@@ -19,8 +20,13 @@ import org.compiere.util.Env;
 
 import com.google.gson.Gson;
 
+import tw.tom.oms.DTO.UnifiedOrderDTO;
+import tw.tom.oms.interfaces.IOrderService;
+import tw.tom.oms.interfaces.IRefreshTokenService;
 import tw.tom.oms.model.MOMS_Channel;
 import tw.tom.oms.model.MOMS_Platform;
+import tw.tom.oms.service.OrderServiceFactory;
+import tw.tom.oms.service.RefreshTokenServiceFactory;
 
 public class OMSRefreshTokenProcess extends SvrProcess{
 
@@ -43,7 +49,12 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 	protected String doIt() throws Exception {
 
 		Query query = new Query(Env.getCtx(), MOMS_Channel.Table_Name, "oms_channel_ID=?", get_TrxName());
-		MOMS_Channel channeldata = query.setParameters(Integer.valueOf(oms_channel_ID)).first();
+		MOMS_Channel channelData = query.setParameters(Integer.valueOf(oms_channel_ID)).first();
+
+		String platformName = channelData.getoms_platform().getName();
+
+		IRefreshTokenService service = RefreshTokenServiceFactory.getService(platformName);
+		var result = service.refreshToken(channelData);
 		
 //		if (target_scheduler == null || target_scheduler.isEmpty()) {
 //			throw new AdempiereUserError("Target Scheduler Name is required");
@@ -61,20 +72,20 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 //		String platform = getParameterdefault(targetSchedulerID, "platform");
 //		String channelSn = getParameterdefault(targetSchedulerID, "channel_sn");
 
-		if (channeldata.getoms_platform().getName().equals("cyberbizV2")) {
-			var responseJson = refreshToken(channeldata);
-			// todo update token
-
-			Gson gson = new Gson();
-			// 將回傳的 JSON 轉成 Map
-			Map<String, Object> responseMap = gson.fromJson(responseJson, Map.class);
-
-			executeUpdate(String.valueOf( responseMap.get("access_token")),String.valueOf(responseMap.get("refresh_token")));
-		}
-		// 3. 更新 A 與 B
-//        updateSchedulerParam(targetSchedulerID, "A", bValue);
-//        updateSchedulerParam(targetSchedulerID, "B", bValue);
-		return "Scheduler '" + oms_channel_ID + "' updated: A = B = " + channeldata.gettoken2();
+//		if (channelData.getoms_platform().getName().equals("cyberbizV2")) {
+//			var responseJson = refreshToken(channelData);
+//			// todo update token
+//
+//			Gson gson = new Gson();
+//			// 將回傳的 JSON 轉成 Map
+//			Map<String, Object> responseMap = gson.fromJson(responseJson, Map.class);
+//
+//			executeUpdate(String.valueOf( responseMap.get("access_token")),String.valueOf(responseMap.get("refresh_token")));
+//		}
+//		// 3. 更新 A 與 B
+////        updateSchedulerParam(targetSchedulerID, "A", bValue);
+////        updateSchedulerParam(targetSchedulerID, "B", bValue);
+		return result;// "Scheduler '" + oms_channel_ID + "' updated: A = B = " + channelData.gettoken2();
 	}
 
 	private String getParameterdefault(int AD_Scheduler_ID, String name) {

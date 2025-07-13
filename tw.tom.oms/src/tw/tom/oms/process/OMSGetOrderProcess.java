@@ -34,19 +34,12 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
-import tw.tom.oms.DTO.CyberbizOrderResponse;
-import tw.tom.oms.DTO.UnifiedOrderDTO;
-import tw.tom.oms.model.I_oms_channel;
-import tw.tom.oms.model.MOMS_Channel;
-import tw.tom.oms.service.CyberbizOrderService;
-import tw.tom.oms.service.OrderService;
-import tw.tom.oms.service.OrderServiceFactory;
+import tw.tom.oms.DTO.*;
+import tw.tom.oms.interfaces.*;
+import tw.tom.oms.model.*;
+import tw.tom.oms.service.*;
 
 public class OMSGetOrderProcess extends SvrProcess {
 
@@ -81,7 +74,7 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 		List<UnifiedOrderDTO> orders = fetchOrders(channelData);
 		for (UnifiedOrderDTO order : orders) {
-			createOrderFromTempAllDTO(order, AD_Org_ID);
+			createOrderFromUnifiedOrderDTO(order, AD_Org_ID);
 		}
 
 		return "Done";
@@ -94,28 +87,14 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 	private List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
 		String platformName = channelData.getoms_platform().getName();
-//		List<CyberbizOrderResponse> datas;
-//		List<UnifiedOrderDTO>  orders = new ArrayList<>();
 
-		OrderService service = OrderServiceFactory.getService(platformName);
+		IOrderService service = OrderServiceFactory.getService(platformName);
 		List<UnifiedOrderDTO> orders = service.fetchOrders(channelData);
-//		switch (platformName) {
-//		case "cyberbizV1":
-//			datas = cbs.cyberbizGetdata(channelData);
-//			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
-//			break;
-//		case "cyberbizV2":
-//			datas = cbs.cyberbizV2Getdata(channelData);
-//			orders = datas.stream().map(CyberbizOrderResponse::ConvertToTempAll).collect(Collectors.toList());
-//			break;
-//		default:
-//			return Collections.emptyList();
-//		}
 
 		return orders;
 	}
 
-	private void createOrderFromTempAllDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
+	private void createOrderFromUnifiedOrderDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
 		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
 		order.setBPartner(MBPartner.get(getCtx(), 118));
 		order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard);

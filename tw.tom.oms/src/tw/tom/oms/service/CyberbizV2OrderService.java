@@ -18,9 +18,10 @@ import com.google.gson.JsonParser;
 import tw.tom.oms.DTO.CyberbizOrderResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
 import tw.tom.oms.helper.CyberbizApiHelper;
+import tw.tom.oms.interfaces.IOrderService;
 import tw.tom.oms.model.MOMS_Channel;
 
-public class CyberbizV2OrderService implements OrderService {
+public class CyberbizV2OrderService implements IOrderService {
 
 	@Override
 	public List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
