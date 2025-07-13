@@ -35,7 +35,21 @@ Factory: Implements platform-specific APIs
 
 MOrder: The iDempiere standard order document
 
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Scheduler
+    participant Channel as OMS_Channel
+    participant Factory as OrderServiceFactory
+    participant Service as ShopeeOrderService
+    participant iDempiere
 
+    Scheduler->>Channel: 取得通路設定
+    Channel->>Factory: 傳入 platformName
+    Factory->>Service: 回傳對應實作
+    Service->>Service: 呼叫平台 API 並轉成 DTO
+    Service->>iDempiere: 建立 MOrder
+```
 ## RefreshTokenJob = OMSRefreshTokenProcess.java
 
 This job is implemented as `OMSRefreshTokenProcess`, a process registered in the iDempiere Scheduler.  
