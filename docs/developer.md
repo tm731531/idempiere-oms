@@ -14,6 +14,7 @@ flowchart TD
     B --> C2[ShopeeOrderService]
     B --> C3[ShoplineOrderService]
     C1 & C2 & C3 --> D[UnifiedOrderDTO List]
+    D --> E[OMSGetOrderProcess create MOrder]
 ```
 ### Core Components
 
