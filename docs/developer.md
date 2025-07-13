@@ -65,12 +65,12 @@ public class ShopeeOrderService implements IOrderService {
         return convertToUnified(rawOrders);
     }
     
-    private List<ShopeeOrder> callShopeeApi(MOMS_Channel channelData) {
+    private List<CyberbizOrder> callCyberbizApi(MOMS_Channel channelData) {
         // ...
         return List.of();
     }
     
-    private List<UnifiedOrderDTO> convertToUnified(List<ShopeeOrder> rawOrders) {
+    private List<UnifiedOrderDTO> convertToUnified(List<CyberbizOrder> rawOrders) {
         // ...
         return List.of();
     }
@@ -78,7 +78,7 @@ public class ShopeeOrderService implements IOrderService {
 
 //usage
 /*
-String platform = "shopee";
+String platform = "cyberbizV2";
 MOMS_Channel channelData = new MOMS_Channel();
 
 OrderService service = OrderServiceFactory.getService(platform);
