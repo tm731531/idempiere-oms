@@ -7,16 +7,14 @@ It dynamically returns the corresponding service instance based on the platform 
 
 ### Architecture Overview
 
-```text
-[Platform Name Term]
-      ↓
-OrderServiceFactory (dispatch by platform)
-      ↓
-ShopeeOrderService / CyberbizOrderService / ShoplineOrderService
-      ↓
-Fetch platform data and convert to list of UnifiedOrderDTO
+```mermaid
+flowchart TD
+    A[Platform Name] --> B[OrderServiceFactory]
+    B --> C1[CyberbizOrderService]
+    B --> C2[ShopeeOrderService]
+    B --> C3[ShoplineOrderService]
+    C1 & C2 & C3 --> D[UnifiedOrderDTO List]
 ```
-
 ### Core Components
 
 OrderService: Unified interface defining fetchOrders(MOMS_Channel channelData), returning a standard list of orders
