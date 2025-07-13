@@ -36,13 +36,13 @@ UnifiedOrderDTO: Standard data transfer object representing orders
 ## Sample Code
 ```java!
 // OrderService interface
-public interface OrderService {
+public interface IOrderService {
     List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception;
 }
 
 // Factory implementation
 public class OrderServiceFactory {
-    public static OrderService getService(String platform) {
+    public static IOrderService getService(String platform) {
         switch (platform.toLowerCase()) {
             case "shopee":
                 return new ShopeeOrderService();
@@ -57,7 +57,7 @@ public class OrderServiceFactory {
 }
 
 // Shopee service example
-public class ShopeeOrderService implements OrderService {
+public class ShopeeOrderService implements IOrderService {
     @Override
     public List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) {
         List<ShopeeOrder> rawOrders = callShopeeApi(channelData);
