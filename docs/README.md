@@ -14,8 +14,7 @@ This directory contains the official documentation for the iDempiere OMS Plugin,
 | `developer.md`    | Guide for extending the plugin and implementing platform adapters    |
 | `tutorial.md`     | Hands-on example: create platform/channel and sync an order         |
 | `faq.md`          | Frequently asked questions and answers                              |
-| `screenshots/`    | Visual assets (UI screenshots, diagrams) used in the above documents |
-| `setup.md/`    | for startup setting method |
+| `setup.md`    | for startup setting method |
 
 ## 🛠 Who is this for?
 
