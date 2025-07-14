@@ -51,7 +51,7 @@ Set up two scheduled tasks under *System Admin → Schedule Process*:
 | Scheduler Name        | Process Class                | Suggested Frequency     |
 |------------------------|-------------------------------|--------------------------|
 | OMS Order Sync         | `OMSGetOrderProcess`          | Every 5 minutes          |
-| Token Refresh Scheduler| `OMSRefreshTokenProcess`      | Every 4 hours            |
+| Token Refresh Scheduler| `OMSRefreshTokenProcess`      | Every 1 hour             |
 
 
 ---
