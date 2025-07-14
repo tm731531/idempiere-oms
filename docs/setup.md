@@ -9,7 +9,7 @@ Go to *System Admin → Report & Process* and register the following processes:
 | Process Name            | Java Class Name                                  | Description                        |
 |-------------------------|--------------------------------------------------|------------------------------------|
 | Get Order Process       | `tw.tom.oms.process.OMSGetOrderProcess`          | Fetch orders and create `MOrder`  |
-| Refresh Token Process   | `tw.tom.oms.process.OMSRefreshTokenProcess`      | Refresh API tokens for platforms  |
+| Refresh Token Process   | `tw.tom.oms.process.OMSRefreshTokenProcess`      | Refresh API tokens for channels  |
 
 ---
 
