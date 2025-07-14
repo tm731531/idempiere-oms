@@ -15,6 +15,7 @@ This directory contains the official documentation for the iDempiere OMS Plugin,
 | `tutorial.md`     | Hands-on example: create platform/channel and sync an order         |
 | `faq.md`          | Frequently asked questions and answers                              |
 | `setup.md`    | for startup setting method |
+| `API`    | for api doc url path |
 
 ## 🛠 Who is this for?
 
