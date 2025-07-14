@@ -67,7 +67,6 @@ To verify the plugin is working correctly:
 ---
 
 ## 7️⃣ Common Errors & Troubleshooting
-> 7️⃣ 常見錯誤與排除方式
 
 | Error Message                        | Possible Cause                            | Suggested Fix                                  |
 |-------------------------------------|-------------------------------------------|------------------------------------------------|
@@ -78,7 +77,6 @@ To verify the plugin is working correctly:
 ---
 
 ## 📎 Related Documents
-> 📎 相關文檔
 
 - [`developer.md`](./developer.md): Plugin architecture & extension guide  
 - [`introduction.md`](./introduction.md): System overview  
