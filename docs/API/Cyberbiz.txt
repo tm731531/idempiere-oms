@@ -1,3 +1,10 @@
-https://api-doc.cyberbiz.co/v1/api_document
 
+
+## V1
+
+https://api-doc.cyberbiz.co/v1/api_document
 apidemo/ apidemo
+
+
+## V2
+https://partner.cyberbiz.io/applications/
