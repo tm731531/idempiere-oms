@@ -4,4 +4,4 @@ apidemo/ apidemo
 
 
 ## V2
-https://partner.cyberbiz.io/applications/
+https://partner.cyberbiz.io/
