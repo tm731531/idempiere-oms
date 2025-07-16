@@ -9,7 +9,7 @@ Go to *System Admin → Report & Process* and register the following processes:
 | Process Name            | Java Class Name                                  | Description                        |
 |-------------------------|--------------------------------------------------|------------------------------------|
 | Get Order Process       | `tw.tom.oms.process.OMSGetOrderProcess`          | Fetch orders and create `MOrder`  |
-| Refresh Token Process   | `tw.tom.oms.process.OMSRefreshTokenProcess`      | Refresh API tokens for platforms  |
+| Refresh Token Process   | `tw.tom.oms.process.OMSRefreshTokenProcess`      | Refresh API tokens for channels  |
 
 ---
 
@@ -51,7 +51,7 @@ Set up two scheduled tasks under *System Admin → Schedule Process*:
 | Scheduler Name        | Process Class                | Suggested Frequency     |
 |------------------------|-------------------------------|--------------------------|
 | OMS Order Sync         | `OMSGetOrderProcess`          | Every 5 minutes          |
-| Token Refresh Scheduler| `OMSRefreshTokenProcess`      | Every 4 hours            |
+| Token Refresh Scheduler| `OMSRefreshTokenProcess`      | Every 1 hour             |
 
 
 ---
@@ -67,7 +67,6 @@ To verify the plugin is working correctly:
 ---
 
 ## 7️⃣ Common Errors & Troubleshooting
-> 7️⃣ 常見錯誤與排除方式
 
 | Error Message                        | Possible Cause                            | Suggested Fix                                  |
 |-------------------------------------|-------------------------------------------|------------------------------------------------|
@@ -78,7 +77,6 @@ To verify the plugin is working correctly:
 ---
 
 ## 📎 Related Documents
-> 📎 相關文檔
 
 - [`developer.md`](./developer.md): Plugin architecture & extension guide  
 - [`introduction.md`](./introduction.md): System overview  

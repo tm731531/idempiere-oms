@@ -52,7 +52,7 @@ https://wiki.idempiere.org/en/Oms-idempiere#Token_sample
 2. Configure channel-level data.
 3. Register relevant processes with the scheduler.
 
-   * If the platform requires token refresh, be sure to include `OMSRefreshTokenProcess`.
+   * If the channel requires token refresh, be sure to include `OMSRefreshTokenProcess`.
 
 ---
 

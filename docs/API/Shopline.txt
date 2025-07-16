@@ -1,0 +1,8 @@
+## api doc
+https://open-api.docs.shoplineapp.com/docs/getting-started
+
+
+## third party partner method
+https://developer.shopline.com/zh-hans-cn/docs/apps/get-started/onboarding-guidelines-for-shopline-developer-s?version=v20251201
+
+https://admin.myshopline.com/user/signIn?sl_state=scene=developer
