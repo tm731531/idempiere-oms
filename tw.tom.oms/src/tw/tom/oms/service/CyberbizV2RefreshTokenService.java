@@ -15,6 +15,7 @@ import org.compiere.util.Env;
 
 import com.google.gson.Gson;
 
+import tw.tom.oms.DTO.RefreshTokenDTO;
 import tw.tom.oms.interfaces.IRefreshTokenService;
 import tw.tom.oms.model.MOMS_Channel;
 import tw.tom.oms.model.MOMS_Platform;
@@ -22,7 +23,7 @@ import tw.tom.oms.model.MOMS_Platform;
 public class CyberbizV2RefreshTokenService implements IRefreshTokenService {
 
 	@Override
-	public String refreshToken(MOMS_Channel channelData,MOMS_Platform platformData) throws Exception {
+	public RefreshTokenDTO refreshToken(MOMS_Channel channelData,MOMS_Platform platformData) throws Exception {
 		// TODO Auto-generated method stub
 		var responseJson = refreshTokenCallAPI(channelData,platformData);
 		// todo update token
@@ -30,10 +31,13 @@ public class CyberbizV2RefreshTokenService implements IRefreshTokenService {
 		Gson gson = new Gson();
 		// 將回傳的 JSON 轉成 Map
 		Map<String, Object> responseMap = gson.fromJson(responseJson, Map.class);
+		RefreshTokenDTO model = new RefreshTokenDTO();
+		model.newToken=String.valueOf( responseMap.get("access_token"));
+		model.refreshToken=String.valueOf( responseMap.get("refresh_token"));
 
-		executeUpdate(String.valueOf( responseMap.get("access_token")),String.valueOf(responseMap.get("refresh_token")),channelData.getoms_channel_ID());
+//		executeUpdate(String.valueOf( responseMap.get("access_token")),String.valueOf(responseMap.get("refresh_token")),channelData.getoms_channel_ID());
 
-		return "Scheduler '" + channelData.getoms_channel_ID() + "' updated: A = B = " + channelData.gettoken2();
+		return model;//"Scheduler '" + channelData.getoms_channel_ID() + "' updated: A = B = " + channelData.gettoken2();
 		}
 
 	private int executeUpdate(String access_token,String refresh_token,int oms_channel_ID) {

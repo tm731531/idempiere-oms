@@ -28,10 +28,11 @@ import tw.tom.oms.model.MOMS_Platform;
 import tw.tom.oms.service.OrderServiceFactory;
 import tw.tom.oms.service.RefreshTokenServiceFactory;
 
-public class OMSRefreshTokenProcess extends SvrProcess{
+public class OMSRefreshTokenProcess extends SvrProcess {
 
 //	private String target_scheduler = null;
-    private String oms_channel_ID ;
+	private String oms_channel_ID;
+
 	@Override
 	protected void prepare() {
 		ProcessInfoParameter[] para = getParameter();
@@ -41,7 +42,7 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 			if (name.equals("oms_channel_ID")) {
 				System.out.println("value :" + para[i].getParameterAsString());
 				oms_channel_ID = para[i].getParameterAsString();
-			} 
+			}
 		}
 	} // prepare
 
@@ -53,13 +54,14 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 
 		Query queryPlatform = new Query(Env.getCtx(), MOMS_Platform.Table_Name, "oms_platform_ID=?", get_TrxName());
 		MOMS_Platform platformData = queryPlatform.setParameters(channelData.getoms_platform_ID()).first();
-		
-		
+
 		String platformName = channelData.getoms_platform().getName();
 
 		IRefreshTokenService service = RefreshTokenServiceFactory.getService(platformName);
-		var result = service.refreshToken(channelData,platformData);
-		
+		var result = service.refreshToken(channelData, platformData);
+
+		executeUpdate(result.newToken, result.refreshToken);
+
 //		if (target_scheduler == null || target_scheduler.isEmpty()) {
 //			throw new AdempiereUserError("Target Scheduler Name is required");
 //		}
@@ -89,7 +91,7 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 //		// 3. 更新 A 與 B
 ////        updateSchedulerParam(targetSchedulerID, "A", bValue);
 ////        updateSchedulerParam(targetSchedulerID, "B", bValue);
-		return result;// "Scheduler '" + oms_channel_ID + "' updated: A = B = " + channelData.gettoken2();
+		return "Scheduler '" + oms_channel_ID + "' updated: A = B = " + channelData.gettoken2();
 	}
 
 	private String getParameterdefault(int AD_Scheduler_ID, String name) {
@@ -98,13 +100,13 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 		return DB.getSQLValueStringEx(null, sql, AD_Scheduler_ID, name);
 	}
 
-	private int executeUpdate(String access_token,String refresh_token) {
+	private int executeUpdate(String access_token, String refresh_token) {
 		var sql = "update oms_channel set token1=? ,token2=? where oms_channel_id=?";
-		Object[] params =  new Object[3];
-		params[0]=access_token;
-		params[1]=refresh_token;
-		params[2]=Integer.valueOf(oms_channel_ID);
-		return DB.executeUpdate(sql, params, false,null);
+		Object[] params = new Object[3];
+		params[0] = access_token;
+		params[1] = refresh_token;
+		params[2] = Integer.valueOf(oms_channel_ID);
+		return DB.executeUpdate(sql, params, false, get_TrxName());
 	}
 
 	private String getParameterUU(int AD_Scheduler_ID, String name) {
@@ -114,13 +116,15 @@ public class OMSRefreshTokenProcess extends SvrProcess{
 	}
 
 	public String refreshToken(MOMS_Channel channelData) {
-		
+
 		String urlStr = "https://" + channelData.getchannel_sn() + "/admin/oauth/token";
 		Query queryPlatform = new Query(Env.getCtx(), MOMS_Platform.Table_Name, "oms_platform_ID=?", get_TrxName());
 		MOMS_Platform platformData = queryPlatform.setParameters(channelData.getoms_platform_ID()).first();
-		
-		String clientId = platformData.getplatform_id();//  MSysConfig.getValue("z_thirdly_cyberbiz_openapi_id", "", getAD_Client_ID());
-		String clientSecret =platformData.getplatform_key();// MSysConfig.getValue("z_thirdly_cyberbiz_openapi_key", "", getAD_Client_ID());
+
+		String clientId = platformData.getplatform_id();// MSysConfig.getValue("z_thirdly_cyberbiz_openapi_id", "",
+														// getAD_Client_ID());
+		String clientSecret = platformData.getplatform_key();// MSysConfig.getValue("z_thirdly_cyberbiz_openapi_key",
+																// "", getAD_Client_ID());
 		Map<String, String> params = new HashMap<>();
 		params.put("grant_type", "refresh_token");
 		params.put("refresh_token", channelData.gettoken2());
