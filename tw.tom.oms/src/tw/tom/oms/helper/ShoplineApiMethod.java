@@ -4,7 +4,7 @@ package tw.tom.oms.helper;
 https://open-api.docs.shoplineapp.com/docs/openapi-request-example
 shopline
 * */
-public class ShoplineApiHelper {
+public class ShoplineApiMethod {
 	public static String apiHost ="https://open.shopline.io/";
 	public class Order {
 		public static String Order = "v1/orders/%s";

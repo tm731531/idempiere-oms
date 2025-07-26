@@ -12,6 +12,8 @@ public class OrderServiceFactory {
 			return new CyberbizV2OrderService();
 		case "shopline":
 			return new ShoplineOrderService();
+		case "momo":
+			return new MomoOrderService();
 		default:
 			throw new IllegalArgumentException("Unsupported platform: " + platform);
 		}

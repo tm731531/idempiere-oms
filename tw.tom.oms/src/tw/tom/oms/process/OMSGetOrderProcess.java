@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.crypto.Mac;
@@ -75,6 +76,10 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 		List<UnifiedOrderDTO> orders = fetchOrders(channelData);
 		for (UnifiedOrderDTO order : orders) {
+			if (isOrderExists(order.order_number,50001 )) {
+				log.info("訂單已存在，跳過 DocumentNo=" + order.order_number);
+				continue;
+			}
 			createOrderFromUnifiedOrderDTO(order, AD_Org_ID);
 		}
 
@@ -94,9 +99,15 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 		return orders;
 	}
+
 	private int getBPartnerLocationID(int bpartnerID) {
 		String sql = "SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY IsBillTo DESC";
 		return DB.getSQLValueEx(get_TrxName(), sql, bpartnerID);
+	}
+	private boolean isOrderExists(String documentNo, int bpartnerId) {
+		String sql = "SELECT COUNT(*) FROM C_Order WHERE DocumentNo = ? AND C_BPartner_ID = ? AND IsActive='Y'";
+		int count = DB.getSQLValue(get_TrxName(), sql, documentNo, bpartnerId);
+		return count > 0;
 	}
 	private void createOrderFromUnifiedOrderDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
 		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
@@ -113,13 +124,13 @@ public class OMSGetOrderProcess extends SvrProcess {
 //		order.setBPartner(MBPartner.get(getCtx(), 50001));
 		order.setM_Warehouse_ID(103);
 
-order.setBill_BPartner_ID(50001); // optional，通常一起設
+		order.setBill_BPartner_ID(50001); // optional，通常一起設
 
-int bpartnerLocationID = getBPartnerLocationID(50001);
-if (bpartnerLocationID <= 0) {
-	throw new AdempiereException("BPartner 沒有任何地址，請先建立至少一筆地址");
-}
-order.setC_BPartner_Location_ID(bpartnerLocationID);
+		int bpartnerLocationID = getBPartnerLocationID(50001);
+		if (bpartnerLocationID <= 0) {
+			throw new AdempiereException("BPartner 沒有任何地址，請先建立至少一筆地址");
+		}
+		order.setC_BPartner_Location_ID(bpartnerLocationID);
 		order.saveEx();
 
 		// 遍历并创建订单行

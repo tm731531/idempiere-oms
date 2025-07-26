@@ -17,7 +17,7 @@ import com.google.gson.JsonParser;
 
 import tw.tom.oms.DTO.CyberbizOrderResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
-import tw.tom.oms.helper.CyberbizApiHelper;
+import tw.tom.oms.helper.CyberbizApiMethod;
 import tw.tom.oms.interfaces.IOrderService;
 import tw.tom.oms.model.MOMS_Channel;
 
@@ -27,7 +27,7 @@ public class CyberbizV2OrderService implements IOrderService {
 	public List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
 		// TODO Auto-generated method stub
 
-		String url = CyberbizApiHelper.apiHostV2 + CyberbizApiHelper.Order.listV1 + "?page=1&per_page=20&offset=0";
+		String url = CyberbizApiMethod.apiHostV2 + CyberbizApiMethod.Order.listV1 + "?page=1&per_page=20&offset=0";
 
 		// 4. 建立 HttpURLConnection 並發送請求
 		URL obj = new URL(url);

@@ -28,7 +28,7 @@ import com.google.gson.JsonParser;
 
 import tw.tom.oms.DTO.CyberbizOrderResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
-import tw.tom.oms.helper.CyberbizApiHelper;
+import tw.tom.oms.helper.CyberbizApiMethod;
 import tw.tom.oms.interfaces.IOrderService;
 import tw.tom.oms.model.MOMS_Channel;
 
@@ -107,8 +107,8 @@ public class CyberbizOrderService implements IOrderService {
 	@Override
 	public List<UnifiedOrderDTO> fetchOrders(MOMS_Channel channelData) throws Exception {
 		// TODO Auto-generated method stub
-		var uri = CyberbizApiHelper.Order.listV1 + "?page=1&per_page=20&offset=0";
-		String url = CyberbizApiHelper.apiHostV1 + uri;
+		var uri = CyberbizApiMethod.Order.listV1 + "?page=1&per_page=20&offset=0";
+		String url = CyberbizApiMethod.apiHostV1 + uri;
 		String httpMethod = "GET";
 		String requestLine = httpMethod + " " + uri + " HTTP/1.1";
 		String xDate = getCurrentGMTTime();

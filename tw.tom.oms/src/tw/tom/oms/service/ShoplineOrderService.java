@@ -24,7 +24,7 @@ import java.time.ZoneId;
 
 import tw.tom.oms.DTO.ShoplineGetOrderListResponse;
 import tw.tom.oms.DTO.UnifiedOrderDTO;
-import tw.tom.oms.helper.ShoplineApiHelper;
+import tw.tom.oms.helper.ShoplineApiMethod;
 import tw.tom.oms.interfaces.IOrderService;
 import tw.tom.oms.model.MOMS_Channel;
 
@@ -46,9 +46,9 @@ public class ShoplineOrderService implements IOrderService {
 	        String startTime = formatterdt.format(startdate);
 	        String  endTime = formatterdt.format(enddate);
 	        
-	        var apiUrlPath = ShoplineApiHelper.Order.OrderList;
+	        var apiUrlPath = ShoplineApiMethod.Order.OrderList;
 
-            URIBuilder uriBuilder = new URIBuilder(ShoplineApiHelper.apiHost)
+            URIBuilder uriBuilder = new URIBuilder(ShoplineApiMethod.apiHost)
                     .setPath(apiUrlPath);
             uriBuilder.addParameter("created_after", startTime)
             .addParameter("created_before", endTime);
