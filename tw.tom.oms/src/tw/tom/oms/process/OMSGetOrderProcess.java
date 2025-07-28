@@ -140,8 +140,24 @@ public class OMSGetOrderProcess extends SvrProcess {
 			orderLine.setC_Order_ID(order.getC_Order_ID());
 			int M_Product_ID = getProductIdBySKU(lineItem.sku);
 			if (M_Product_ID <= 0) {
-				log.warning("找不到商品 SKU：" + lineItem.sku + "，此明细将略过");
-				continue;
+		                if (sku == null || sku.trim().isEmpty()){
+					log.warning("無SKU：" + lineItem.sku + "，此明细将略过");
+					continue;
+				}
+				MProduct product = new MProduct(getCtx(), 0, get_TrxName());
+			        product.setValue(lineItem.sku);
+	  		        product.setName(lineItem.title); // ← 請從 API 中取得名稱
+//	    product.setC_TaxCategory_ID(DEFAULT_TAX_CATEGORY_ID);
+//	    product.setM_Product_Category_ID(DEFAULT_CATEGORY_ID);
+//	    product.setC_UOM_ID(DEFAULT_UOM_ID);
+			        product.setProductType(MProduct.PRODUCTTYPE_Item);
+			        product.setIsStocked(false); // ✅ 無限數量
+			        product.setIsSold(true);
+		        	product.setIsPurchased(false);
+	   			product.saveEx();
+				// log.warning("找不到商品 SKU：" + lineItem.sku + "，此明细将略过");
+				// continue;
+				M_Product_ID= product.getM_Product_ID();
 			}
 			orderLine.setM_Product_ID(M_Product_ID, true);
 			orderLine.setQty(new BigDecimal(lineItem.quantity));
@@ -158,6 +174,9 @@ public class OMSGetOrderProcess extends SvrProcess {
 	}
 
 	private int getProductIdBySKU(String sku) {
+		if (sku == null || sku.trim().isEmpty())
+                    return -1;
+
 		String sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
 		return DB.getSQLValueEx(null, sql, sku);
 	}
