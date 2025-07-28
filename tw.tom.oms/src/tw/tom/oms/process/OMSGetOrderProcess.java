@@ -28,6 +28,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MCtxHelpMsg;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
@@ -76,7 +77,7 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 		List<UnifiedOrderDTO> orders = fetchOrders(channelData);
 		for (UnifiedOrderDTO order : orders) {
-			if (isOrderExists(order.order_number,50001 )) {
+			if (isOrderExists(order.order_number, 50001)) {
 				log.info("訂單已存在，跳過 DocumentNo=" + order.order_number);
 				continue;
 			}
@@ -104,11 +105,13 @@ public class OMSGetOrderProcess extends SvrProcess {
 		String sql = "SELECT C_BPartner_Location_ID FROM C_BPartner_Location WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY IsBillTo DESC";
 		return DB.getSQLValueEx(get_TrxName(), sql, bpartnerID);
 	}
+
 	private boolean isOrderExists(String documentNo, int bpartnerId) {
 		String sql = "SELECT COUNT(*) FROM C_Order WHERE DocumentNo = ? AND C_BPartner_ID = ? AND IsActive='Y'";
 		int count = DB.getSQLValue(get_TrxName(), sql, documentNo, bpartnerId);
 		return count > 0;
 	}
+
 	private void createOrderFromUnifiedOrderDTO(UnifiedOrderDTO orderData, int AD_Org_ID) {
 		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
 		order.setAD_Org_ID(AD_Org_ID);
@@ -140,24 +143,24 @@ public class OMSGetOrderProcess extends SvrProcess {
 			orderLine.setC_Order_ID(order.getC_Order_ID());
 			int M_Product_ID = getProductIdBySKU(lineItem.sku);
 			if (M_Product_ID <= 0) {
-		                if (sku == null || sku.trim().isEmpty()){
-					log.warning("無SKU：" + lineItem.sku + "，此明细将略过");
+				if (lineItem.sku == null || lineItem.sku.trim().isEmpty()) {
+					log.warning("無SKU：" + lineItem.sku + "，此明细将略過");
 					continue;
 				}
 				MProduct product = new MProduct(getCtx(), 0, get_TrxName());
-			        product.setValue(lineItem.sku);
-	  		        product.setName(lineItem.title); // ← 請從 API 中取得名稱
-//	    product.setC_TaxCategory_ID(DEFAULT_TAX_CATEGORY_ID);
-//	    product.setM_Product_Category_ID(DEFAULT_CATEGORY_ID);
-//	    product.setC_UOM_ID(DEFAULT_UOM_ID);
-			        product.setProductType(MProduct.PRODUCTTYPE_Item);
-			        product.setIsStocked(false); // ✅ 無限數量
-			        product.setIsSold(true);
-		        	product.setIsPurchased(false);
-	   			product.saveEx();
+				product.setValue(lineItem.sku);
+				product.setName(lineItem.title); // ← 請從 API 中取得名稱
+				product.setC_TaxCategory_ID(107);
+				product.setM_Product_Category_ID(50000);
+				product.setC_UOM_ID(200001);
+				product.setProductType(MProduct.PRODUCTTYPE_Item);
+				product.setIsStocked(false); // ✅ 無限數量
+				product.setIsSold(true);
+				product.setIsPurchased(false);
+				product.saveEx();
 				// log.warning("找不到商品 SKU：" + lineItem.sku + "，此明细将略过");
 				// continue;
-				M_Product_ID= product.getM_Product_ID();
+				M_Product_ID = product.getM_Product_ID();
 			}
 			orderLine.setM_Product_ID(M_Product_ID, true);
 			orderLine.setQty(new BigDecimal(lineItem.quantity));
@@ -175,7 +178,7 @@ public class OMSGetOrderProcess extends SvrProcess {
 
 	private int getProductIdBySKU(String sku) {
 		if (sku == null || sku.trim().isEmpty())
-                    return -1;
+			return -1;
 
 		String sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
 		return DB.getSQLValueEx(null, sql, sku);
