@@ -162,7 +162,7 @@ public class OMSGetOrderProcess extends SvrProcess {
 				// continue;
 				M_Product_ID = product.getM_Product_ID();
 			}
-			orderLine.setM_Product_ID(M_Product_ID, true);
+			orderLine.setM_Product_ID(M_Product_ID, false);
 			orderLine.setQty(new BigDecimal(lineItem.quantity));
 			orderLine.setPrice(new BigDecimal(lineItem.price));
 			orderLine.setDescription(lineItem.title);
