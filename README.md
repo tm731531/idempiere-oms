@@ -1,6 +1,6 @@
 
 
-
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/tm731531/idempiere-oms)
 
 # iDempiere OMS Plugin
 
